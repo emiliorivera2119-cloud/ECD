@@ -2,13 +2,6 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./LandingPage.css";
 
-// Importar imágenes locales
-import img1 from "../../assets/images/1.jpg";
-import img2 from "../../assets/images/2.jpg";
-import img3 from "../../assets/images/3.jpg";
-import hospital1 from "../../assets/images/hospital1.jpeg";
-import hospital2 from "../../assets/images/hospital2.jpeg";
-import hospital3 from "../../assets/images/hospital3.jpeg";
 
 export default function LandingPage() {
   const navigate = useNavigate();
