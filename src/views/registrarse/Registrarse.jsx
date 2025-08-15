@@ -13,6 +13,8 @@ export default function Registrarse() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validaciones básicas
     if (!nombre || !cargo || !codigo) {
       setError("Completa todos los campos.");
       setRegistroExitoso(null);
@@ -23,9 +25,10 @@ export default function Registrarse() {
       setRegistroExitoso(null);
       return;
     }
-    setError(""); // Limpia el error
 
-    // Adaptar al JSON solicitado
+    setError(""); // Limpia el error previo
+
+    // Datos en minúsculas
     const formData = {
       nombre: nombre,
       cargo: cargo,
@@ -45,27 +48,33 @@ export default function Registrarse() {
       );
 
       const data = await response.json();
-      if (response.ok && response.status === 200) {
+
+      if (response.ok) {
+        // Éxito (200 o 201)
         setRegistroExitoso(true);
+        setError("");
         setNombre("");
         setCargo("");
         setCodigo("");
       } else {
+        // Error de la API
         setRegistroExitoso(false);
-        setError(data?.message || "No se pudo registrar correctamente.");
+        setError(data.message || "No se pudo registrar correctamente.");
       }
     } catch (error) {
-      setError(
-        "Hubo un problema al procesar la solicitud. Por favor, inténtalo de nuevo más tarde."
-      );
+      setError("Error de conexión con el servidor.");
       setRegistroExitoso(false);
     }
+  };
+
+  const handleRegresar = () => {
+    navigate(-1);
   };
 
   return (
     <div className="body-buscar">
       <main>
-        <header>Registrar Usuario</header>
+        <header>Registrar consultorio</header>
         <div className="body-register">
           <div className="form-register">
             <form onSubmit={handleSubmit}>
@@ -92,6 +101,7 @@ export default function Registrarse() {
                   onChange={(e) => setCargo(e.target.value)}
                 />
               </div>
+
               <div className="form-group">
                 <label htmlFor="codigo">Código</label>
                 <input
@@ -100,17 +110,6 @@ export default function Registrarse() {
                   placeholder="Código"
                   value={codigo}
                   onChange={(e) => setCodigo(e.target.value)}
-                />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="pass">Contraseña</label>
-                <input
-                  id="pass"
-                  type="password"
-                  placeholder="Contraseña"
-                  value={pass}
-                  onChange={(e) => setPass(e.target.value)}
                 />
               </div>
 
@@ -140,6 +139,7 @@ export default function Registrarse() {
                 </label>
               </div>
 
+              {/* Mensajes */}
               {error && (
                 <div style={{ color: "red", marginBottom: "10px" }}>{error}</div>
               )}
@@ -148,7 +148,7 @@ export default function Registrarse() {
                   Registrado correctamente.
                 </div>
               )}
-              {registroExitoso === false && (
+              {registroExitoso === false && !error && (
                 <div style={{ color: "red", marginBottom: "10px" }}>
                   No se pudo registrar correctamente.
                 </div>
@@ -162,6 +162,7 @@ export default function Registrarse() {
                 <button
                   type="button"
                   style={{ background: "#eaf7f5", color: "#2fb7a1" }}
+                  onClick={() => navigate(-1)}
                 >
                   ← Regresar
                 </button>

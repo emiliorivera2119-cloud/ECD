@@ -11,8 +11,12 @@ export default function LoginPersonal(){
     const handleLogin = async (e) => {
         e.preventDefault()
         try {
-            const response = await axios.post('https://ecd-api.up.railway.app/v1/auth/login', { nombre, codigo })
-            // Si el login es exitoso, puedes validar con response.data si lo necesitas
+            // Enviar datos como empleado
+            const response = await axios.post('https://ecd-api.up.railway.app/v1/auth/login', {
+                nombre: nombre,
+                codigo: codigo,
+                
+            })
             localStorage.setItem("auth", "true")
             navigate('/dashboard')
         } catch (error) {
@@ -38,7 +42,7 @@ export default function LoginPersonal(){
                                     type="text"
                                     name="nombre"
                                     id="nombre"
-                                    placeholder='Nombre del personal'
+                                    placeholder='Nombre del empleado'
                                     value={nombre}
                                     onChange={(event) => setNombre(event.target.value)}
                                 />
