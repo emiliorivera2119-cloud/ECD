@@ -16,7 +16,7 @@ const Buscar = () => {
       const res = await fetch(`https://ecd-api.up.railway.app/v1/pacientes/nombre/${encodeURIComponent(query)}`);
       const data = await res.json();
       if (data.rows && data.rows.length > 0) {
-        setResultados(data.rows[0]);
+        setResultados(data.rows[0]);z
       } else {
         setError("No se encontraron pacientes.");
       }
